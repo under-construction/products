@@ -1,8 +1,10 @@
 const mainSwiper = document.getElementById('mainSwiper');
 const swiperWrapper = document.getElementById('swiperWrapper');
 const mainTab = document.getElementById('mainTab');
+const sidebar = document.getElementById('sidebarContainer')
 let selectedTabIndex = 0;
 let tabButtonsArray = [];
+let sidebarButtonsArray = [];
 
 fetch('/data.json')
 .then(res => res.json())
@@ -23,26 +25,29 @@ fetch('/data.json')
     let userCategories = res.responses[0][0].params.userCategories;
     let recommendedProducts = res.responses[0][0].params.recommendedProducts;
 
-    createTabs(userCategories, recommendedProducts);
+    createTabs(userCategories, tabButtonsArray, mainTab, 'tablinks');
+    createTabs(userCategories, sidebarButtonsArray, sidebar, 'sidebarButton');
     addBtnClickEvent(tabButtonsArray, recommendedProducts)
+    addBtnClickEvent(sidebarButtonsArray, recommendedProducts);
     createProductCards(recommendedProducts['Size Özel']);
+    console.log(swiper.params.slidesPerView);
 });
 
 function createProductCards(array) {
 
     array.forEach((i) => {
-        
         // Create price text
         let priceText = createParagraph('card-text', `${i.price} TL`);
-        priceText.style = 'background-color: #cecece; border-radius: 5px; font-weight: bold; margin-bottom: 15px';
+        priceText.style = 'font-weight: bold; margin-left: 5px; text-align: left';
 
         // Create div for price text
         let divPriceText = document.createElement('div');
+        divPriceText.style = 'background-color: rgb(237 237 237); border-radius: 5px; padding: 10px';
         divPriceText.appendChild(priceText);
 
         // Create product name text
         let productNameText = createParagraph('card-text', i.name);
-        productNameText.style = 'margin-bottom: 20px; font-size: medium; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;';
+        productNameText.style = 'margin-bottom: 20px; font-size: medium; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;';
 
         // Create div for product name text
         let divProductNameText = document.createElement('div');
@@ -61,19 +66,27 @@ function createProductCards(array) {
         cardBodyDiv.appendChild(divProductNameText);
         cardBodyDiv.appendChild(divPriceText);
         // cardBodyDiv.appendChild(divCartButton);
-        cardBodyDiv.style = 'width: inherit;';
+        cardBodyDiv.style = 'width: -webkit-fill-available;;';
 
         if (i.params.shippingFee === 'FREE') {
             
             // Create shipping fee text
-            let shippingFeeText = createParagraph('card-text', 'Ücretsiz Kargo');
-            shippingFeeText.style = 'font-size: medium';
+            let spanShippingFeeSymbol = document.createElement('span');
+            spanShippingFeeSymbol.style = 'margin-right: 10px';
+            spanShippingFeeSymbol.innerHTML = '<i class="fa-solid fa-truck" style="color: green"></i>';
 
-            // Create div for shipping fee text
-            let divShippingFeeText = document.createElement('div');
-            divShippingFeeText.appendChild(shippingFeeText);
+            // Create shipping fee text
+            let spanShippingFeeText = document.createElement('span');
+            spanShippingFeeText.style = 'font-size: medium;';
+            spanShippingFeeText.innerText = 'Ücretsiz Kargo';
 
-            cardBodyDiv.appendChild(divShippingFeeText);
+            // Create div
+            let divShipping = document.createElement('div');
+            divShipping.style = 'display: flex; margin-top: 10px';
+            divShipping.appendChild(spanShippingFeeSymbol);
+            divShipping.appendChild(spanShippingFeeText);
+
+            cardBodyDiv.appendChild(divShipping);
         }
 
         // Create img
@@ -99,13 +112,15 @@ function createProductCards(array) {
     });
 
     unColorOtherTabs(tabButtonsArray, selectedTabIndex);
+    unColorOtherTabsSidebar(sidebarButtonsArray, selectedTabIndex);
 }
 
-function createTabs(arrayTabs, productObject) {
+function createTabs(arrayTabs, arrayToPush, mainContainer, btnClass) {
     arrayTabs.forEach(i => {
-        let button = createButton('tablinks', i);
-        tabButtonsArray.push(button);
-        mainTab.appendChild(button);
+        let button = createButton(btnClass, i.substring(i.indexOf('> ') + 1));
+        button.name = i;
+        arrayToPush.push(button);
+        mainContainer.appendChild(button);
     });
 }
 
@@ -114,7 +129,7 @@ function addBtnClickEvent(tabButtonsArray, productObject) {
         i.onclick = () => {
             clearProductCards();
             selectedTabIndex = tabButtonsArray.indexOf(i);
-            createProductCards(productObject[i.innerText]);
+            createProductCards(productObject[i.name]);
         };
     });
 }
@@ -126,6 +141,17 @@ function unColorOtherTabs(tabButtonsArray, index) {
         }
         else {
             i.id = 'inactiveTab';
+        }
+    });
+}
+
+function unColorOtherTabsSidebar(tabButtonsArray, index) {
+    tabButtonsArray.forEach(i => {
+        if (tabButtonsArray.indexOf(i) === index) {
+            i.id = 'activeTabSidebar';
+        }
+        else {
+            i.id = 'inactiveTabSidebar';
         }
     });
 }
