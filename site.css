@@ -44,7 +44,6 @@ html,
       .swiper {
         width: 1000px;
         height: auto;
-        overflow-x: scroll !important;
       }
 
       .swiper-slide {
@@ -129,9 +128,56 @@ html,
   font-size: small;
 }
 
+.popuptext {
+  visibility: hidden;
+  width: 400px;
+  background-color: rgb(19, 21, 32);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 25px;
+  padding: 20px;
+  display: flex;
+}
+
+.show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+.popupParagraph {
+  margin: 0%;
+  text-align: left;
+}
+
+.goToCartText {
+  font-size: small;
+  color: rgb(158, 206, 245);
+}
+
+#btnClosePopup {
+  background-color: inherit;
+  color: white;
+  border: none;
+}
+
 @media screen and (max-width: 576px){
   #sidebarContainer {
     display: none;
+  }
+
+  .btnAddToCart {
+    background-color: rgb(73, 144, 250);
+    color: white;
+    display: block;
+    border: none;
+    font-weight: bold;
+    font-size: medium;
+    padding: 5px;
   }
 }
 
@@ -142,5 +188,9 @@ html,
 
   .swiper {
     display: inline-block;
+  }
+
+  .divAddToCart {
+    display: none;
   }
 }
