@@ -30,80 +30,71 @@ fetch('/data.json')
     addBtnClickEvent(tabButtonsArray, recommendedProducts)
     addBtnClickEvent(sidebarButtonsArray, recommendedProducts);
     createProductCards(recommendedProducts['Size Özel']);
-    console.log(swiper.params.slidesPerView);
 });
 
 function createProductCards(array) {
 
     array.forEach((i) => {
-        // Create price text
         let priceText = createParagraph('card-text', `${i.price} TL`);
         priceText.style = 'font-weight: bold; margin-left: 5px; text-align: left';
 
-        // Create div for price text
         let divPriceText = document.createElement('div');
         divPriceText.style = 'background-color: rgb(237 237 237); border-radius: 5px; padding: 10px';
         divPriceText.appendChild(priceText);
 
-        // Create product name text
         let productNameText = createParagraph('card-text', i.name);
         productNameText.style = 'margin-bottom: 20px; font-size: medium; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;';
 
-        // Create div for product name text
         let divProductNameText = document.createElement('div');
         divProductNameText.appendChild(productNameText);
 
-        // // Create add to cart button
-        // let addToCartButton = createButton('btn-primary', 'Sepete Ekle');
-        // addToCartButton.style = 'width: 50%; text-align: center';
+        let addToCartButton = createButton('btnAddToCart', 'Sepete Ekle');
+        addToCartButton.style = 'text-align: center; width: -webkit-fill-available; border-radius: 5px';
+        addToCartButton.onclick = () => showPopup();
 
-        // // Create div for button
-        // let divCartButton = document.createElement('div');
-        // divCartButton.appendChild(addToCartButton);
+        let closePopupButton = document.getElementById('btnClosePopup');
+        closePopupButton.onclick = () => closePopup();
 
-        // Create card body div
+        let divCartButton = createDiv('divAddToCart');
+        divCartButton.style = 'margin-top: 15px;';
+        divCartButton.appendChild(addToCartButton);
+
         let cardBodyDiv = createDiv('card-body');
         cardBodyDiv.appendChild(divProductNameText);
         cardBodyDiv.appendChild(divPriceText);
-        // cardBodyDiv.appendChild(divCartButton);
-        cardBodyDiv.style = 'width: -webkit-fill-available;;';
-
+        cardBodyDiv.style = 'width: -webkit-fill-available;';
+        
         if (i.params.shippingFee === 'FREE') {
             
-            // Create shipping fee text
             let spanShippingFeeSymbol = document.createElement('span');
             spanShippingFeeSymbol.style = 'margin-right: 10px';
             spanShippingFeeSymbol.innerHTML = '<i class="fa-solid fa-truck" style="color: green"></i>';
-
-            // Create shipping fee text
+            
             let spanShippingFeeText = document.createElement('span');
             spanShippingFeeText.style = 'font-size: medium;';
             spanShippingFeeText.innerText = 'Ücretsiz Kargo';
-
-            // Create div
+            
             let divShipping = document.createElement('div');
             divShipping.style = 'display: flex; margin-top: 10px';
             divShipping.appendChild(spanShippingFeeSymbol);
             divShipping.appendChild(spanShippingFeeText);
-
+            
             cardBodyDiv.appendChild(divShipping);
         }
+        
+        cardBodyDiv.appendChild(divCartButton);
 
-        // Create img
         let img = createImage(i.image, 'card-img-top', '...');
+        img.loading = 'lazy';
 
-        // Create div for img
         let imgDiv = createDiv('imgDiv');
         imgDiv.appendChild(img);
 
-        // Create card div
         let cardDiv = createDiv('card');
-        // cardDiv.appendChild(img);
         cardDiv.appendChild(imgDiv);
         cardDiv.appendChild(cardBodyDiv);
         cardDiv.style = 'align-items: center;';
 
-        // Create swiper slide div
         let swiperSlideDiv = createDiv('swiper-slide');
         swiperSlideDiv.appendChild(cardDiv);
 
@@ -193,4 +184,14 @@ function clearProductCards() {
     Array.from(cardElements).forEach(i => {
         i.remove();
     });
+}
+
+function showPopup() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+  }
+
+function closePopup() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.remove('show');
 }
