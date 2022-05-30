@@ -11,20 +11,28 @@
     rel="stylesheet"
     href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
-    <div class="tab" id="mainTab">
+  <div style="margin: 20px;">
+    <h4>Sizin için Seçtiklerimiz</h4>
+  </div>
+
+  <div class="sideBarContainer" id="sidebarContainer">
+  </div>
+
+  <div class="tab" id="mainTab" style="width: 1000px;">
+  </div>
+
+  <div class="swiper" id="mainSwiper" style="margin: 15px;">
+    <div class="swiper-wrapper" id="swiperWrapper">
     </div>
 
-    <div class="swiper" id="mainSwiper" style="margin: 15px;">
-      <div class="swiper-wrapper" id="swiperWrapper">
-      </div>
-
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-    </div>
-    
-    <script type="module" src="script.js"></script>
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+  
+  <script type="module" src="script.js"></script>
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 </body>
 </html>

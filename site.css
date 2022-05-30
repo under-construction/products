@@ -16,6 +16,16 @@
   border-bottom: 2px solid gray;
 }
 
+#activeTabSidebar {
+  color: rgb(0, 102, 255);
+  background-color: rgb(224, 242, 250);
+  border-left: 2px solid rgb(0, 102, 255);
+}
+
+#inactiveTabSidebar {
+  color: rgb(105, 105, 105);
+}
+
 html,
       body {
         position: relative;
@@ -32,7 +42,9 @@ html,
       }
 
       .swiper {
-        width: 70%;
+        width: 1000px;
+        height: auto;
+        overflow-x: scroll !important;
       }
 
       .swiper-slide {
@@ -62,7 +74,7 @@ html,
       }
 
 .tab {
-  overflow: hidden;
+  overflow-x: scroll;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
 }
@@ -90,4 +102,45 @@ html,
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+}
+
+.sideBarContainer {
+  display: inline-block;
+  padding: 0%;
+  width: 150px;
+  height: 100%;
+  vertical-align: top;
+  margin: 15px;
+}
+
+.sidebarButton {
+  margin-bottom: 10px;
+  border: none;
+  background-color: white;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: small;
+}
+
+@media screen and (max-width: 576px){
+  #sidebarContainer {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 577px){
+  #mainTab {
+    display: none;
+  }
+
+  .swiper {
+    display: inline-block;
+  }
 }
